@@ -1,15 +1,17 @@
 <template>
-  <layout>
-    labels
+  <div>
+    <layout>
+      明细
+    </layout>
 
-  </layout>
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 
 @Component
-export default class Labels extends Vue {
+export default class bill extends Vue {
 }
 </script>
 
