@@ -2,42 +2,49 @@
   <div class="tags">
 
     <ul class="current">
-      <li>
-        <Icon name="dinner"/>
-        餐饮
+      <li v-for="tag in dataSource" :key="tag"
+          :class="{selected:selectedTags.indexOf(tag)>=0}"
+          @click="toggle(tag)"
+      >
+        <Icon :name="'餐饮'"/>
+        {{tag}}
       </li>
       <li>
-        <Icon name="shopping"/>
-        购物
-      </li>
-      <li>
-        <Icon name="lives"/>
-        日用
-      </li>
-      <li>
-        <Icon name="transport"/>
-        交通
-      </li>
-      <li>
-        <Icon name="vegetable"/>
-        蔬菜
-      </li>
-      <li>
-        <Icon name="fruit"/>
-        水果
-      </li>
-      <li>
-        <Icon name="edit"/>
+        <Icon name="edit" @click="add"/>
         编辑
       </li>
+
     </ul>
   </div>
 
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Tags'
+import Vue from 'vue'
+import {Component,Prop} from 'vue-property-decorator'
+@Component
+export default class Tags extends  Vue {
+  @Prop(Array) dataSource:string|undefined;
+  selectedTags:string[]=[]
+  toggle(tag:string){
+    const index= this.selectedTags.indexOf(tag)
+    if(index>=0){
+      this.selectedTags.splice(index,1)
+    }else{
+      this.selectedTags.push(tag)
+    }
+
+  }
+  add() {
+
+    const name = window.prompt('请输入标签名')
+    if (name === '') {
+      window.prompt('标签名不能为空')
+    } else if (this.dataSource) {
+      this.$emit('update:dataSource', [...this.dataSource, name])
+    }
+  }
+
 };
 </script>
 
@@ -58,6 +65,13 @@ export default {
       flex-direction: column;
       margin:6px 0;
       width: 25%;
+
+      &.selected{
+        .icon{
+          background:#f9d856 ;
+        }
+
+      }
       .icon {
         width: 40px;
         height: 40px;
