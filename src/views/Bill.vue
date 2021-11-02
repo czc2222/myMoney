@@ -1,8 +1,8 @@
 <template>
   <div>
-    <layout>
+    <Layout>
       明细
-    </layout>
+    </Layout>
 
   </div>
 </template>

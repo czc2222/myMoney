@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <layout>
-      money
-    </layout>
+  <layout class-prefix="layout">
+    <NumberPad/>
+    <Notes/>
+    <Tags/>
+    <Types/>
+  </layout>
 
-  </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-
-@Component
-export default class money extends Vue {
-}
+import NumberPad from '@/components/money/NumberPad.vue';
+import Types from '@/components/money/Types.vue';
+import Notes from '@/components/money/Notes.vue';
+import Tags from '@/components/money/Tags.vue';
+export default {
+  name: 'Money',
+  components: {Tags, Notes, Types, NumberPad},
+};
 </script>
-
-<style lang="scss" scoped>
-
+<style lang="scss">
+.layout-content {
+  display: flex;
+  flex-direction: column-reverse;
+}
 </style>

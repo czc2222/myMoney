@@ -1,8 +1,8 @@
 <template>
-  <layout>
+  <Layout>
     labels
 
-  </layout>
+  </Layout>
 </template>
 <script lang="ts">
 import Vue from 'vue';
