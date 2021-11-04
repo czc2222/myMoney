@@ -1,6 +1,6 @@
 <template>
   <layout class-prefix="layout">
-    {{ recordListModel }}
+    {{ record }}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <div class="notes">
       <FormItem field-name="备注"
