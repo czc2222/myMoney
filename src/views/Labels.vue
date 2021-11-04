@@ -1,15 +1,17 @@
 <template>
   <Layout>
     <ol class="tags">
-      <li v-for="tag in tags" :key="tag">
-        <span>{{tag}}</span>
+      <li v-for="tag in tags" :key="tag.id" class="tag">
+        <span>{{tag.name}}</span>
+<!--        //如果想使用icon，可以用name ="tag.name" 来-->
+        <icon name="right"/>
       </li>
     </ol>
     <div class="createTag-wrapper">
-      <Button class="createTag"
+      <button class="createTag"
               @click="createTag">
         新建标签
-      </Button>
+      </button>
     </div>
   </Layout>
 </template>
@@ -50,12 +52,12 @@ export default class Labels extends Vue{
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
-    //svg {
-    //  width: 18px;
-    //  height: 18px;
-    //  color: #666;
-    //  margin-right: 16px;
-    //}
+    svg {
+      width: 18px;
+      height: 18px;
+      color: #666;
+      margin-right: 16px;
+    }
   }
 }
 .createTag {
