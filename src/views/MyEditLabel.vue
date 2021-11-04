@@ -1,17 +1,17 @@
 <template>
   <layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left" @click.native="goBack"/>
+      <Icon class="leftIcon" name="left"/>
       <span class="title">编辑标签</span>
       <span class="right">完成</span>
     </div>
     <div class="form-wrapper">
       <FormItem :value="tag.name"
-                @update:value="update"
+                @update:value="updateTag"
                 field-name="icon图标" placeholder="请输入类别名称"/>
     </div>
     <div class="button-wrapper">
-      <Button @click="remove">删除标签</Button>
+      <Button>删除标签</Button>
     </div>
   </layout>
 </template>
@@ -28,7 +28,7 @@ import Button from '@/components/Button.vue';
 export default class EditLabel extends Vue {
   tag?: { id: string, name: string } = undefined;
 
-  created() {//获取已经生成的标签
+  created() {
     const id = this.$route.params.id;//获取/edit/:id的 id数字
     tagListModel.fetch();//先将获取的数据进行渲染
     const tags = tagListModel.data; //获取所以标签数据
@@ -39,19 +39,11 @@ export default class EditLabel extends Vue {
       this.$router.replace('/404');//如果没有选中编辑标签，直接404
     }
   }
-  update(name:string){//更新标签名
+  updateTag(name:string){
     if(this.tag){
       tagListModel.update(this.tag.id,name)
     }
 
-  }
-  remove(){//删除标签
-   if(this.tag){
-     tagListModel.remove(this.tag.id)
-   }
-  }
-  goBack(){//回退
-    this.$router.back()
   }
 }
 </script>
