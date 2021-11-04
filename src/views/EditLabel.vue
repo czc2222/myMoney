@@ -6,10 +6,10 @@
       <span class="right">完成</span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="icon图标" placeholder="请输入类别名称"/>
+      <FormItem :value="tag.name" field-name="icon图标" placeholder="请输入类别名称"/>
     </div>
     <div class="button-wrapper">
-      <Button >删除标签</Button>
+      <Button>删除标签</Button>
     </div>
   </layout>
 </template>
@@ -24,13 +24,15 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
+  tag?: { id: string, name: string } = undefined;
+
   created() {
     const id = this.$route.params.id;//获取/edit/:id的 id数字
     tagListModel.fetch();//先将获取的数据进行渲染
     const tags = tagListModel.data; //获取所以标签数据
     const tag = tags.filter(t => t.id === id)[0];//获取选中编辑的标签数据
-    if (tag) {
-      console.log(tag);
+    if (tag) {//如果tag存在
+      this.tag = tag;
     } else {
       this.$router.replace('/404');//如果没有选中编辑标签，直接404
     }
