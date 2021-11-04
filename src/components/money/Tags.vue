@@ -2,17 +2,17 @@
   <div class="tags">
 
     <ul class="current">
-      <li v-for="tag in dataSource" :key="tag"
+      <li v-for="tag in dataSource" :key="tag.id"
           :class="{selected:selectedTags.indexOf(tag)>=0}"
           @click="toggle(tag)"
       >
-        <Icon :name="'餐饮'"/>
-        {{tag}}
+        <Icon :name="tag.name"/>
+        {{tag.name}}
       </li>
-      <li>
-        <Icon name="edit" @click="add"/>
+      <router-link to="/labels" class="edit">
+        <Icon name="edit" />
         编辑
-      </li>
+      </router-link>
 
     </ul>
   </div>
@@ -36,15 +36,15 @@ export default class Tags extends  Vue {
     this.$emit('update:value',this.selectedTags)
 
   }
-  add() {
-
-    const name = window.prompt('请输入标签名')
-    if (name === '') {
-      window.prompt('标签名不能为空')
-    } else if (this.dataSource) {
-      this.$emit('update:dataSource', [...this.dataSource, name])
-    }
-  }
+  // add() {
+  //
+  //   const name = window.prompt('请输入标签名')
+  //   if (name === '') {
+  //     window.prompt('标签名不能为空')
+  //   } else if (this.dataSource) {
+  //     this.$emit('update:dataSource', [...this.dataSource, name])
+  //   }
+  // }
 
 };
 </script>
@@ -60,7 +60,7 @@ export default class Tags extends  Vue {
   > .current {
     display: flex;
     flex-wrap: wrap;
-    > li {
+    > li,.edit {
       display: flex;
       justify-content: center;
       align-items: center;
