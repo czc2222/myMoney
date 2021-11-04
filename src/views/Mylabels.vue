@@ -12,7 +12,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Types from '@/components/money/Types.vue';
 import Tags from '@/components/money/Tags.vue';
-import Notes from '@/components/money/Notes.vue';
+import FormItem from '@/components/money/FormItem.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import tagListModel from '@/models/tagLIstModel';
 
