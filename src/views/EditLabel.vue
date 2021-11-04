@@ -3,7 +3,7 @@
     <div class="navBar">
       <Icon class="leftIcon" name="left" @click.native="goBack"/>
       <span class="title">编辑标签</span>
-      <span class="right">完成</span>
+      <span class="right" @click="finish">完成</span>
     </div>
     <div class="form-wrapper">
       <FormItem :value="tag.name"
@@ -48,9 +48,21 @@ export default class EditLabel extends Vue {
   remove(){//删除标签
    if(this.tag){
      tagListModel.remove(this.tag.id)
+
    }
+   // if(this.tag){
+   //   if(tagListModel.remove(this.tag.id)){
+   //     this.$router.back()
+   //   }else{
+   //     window.alert('删除失败')
+   //   }
+   // }
   }
   goBack(){//回退
+    this.$router.back()
+  }
+  finish(){//点击完成保存标签，并且回退
+    tagListModel.save()
     this.$router.back()
   }
 }
