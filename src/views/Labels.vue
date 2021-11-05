@@ -7,9 +7,11 @@
                    v-for="tag in tags" :key="tag.id"
                    class="tag">
 
-        <span><Icon :name="tag.name"/>{{tag.name}}</span>
-<!--        //如果想使用icon，可以用name ="tag.name" 来-->
-        <icon name="right"/>
+        <span>
+          <Icon class="leftIcon" :name="tag.name"/>
+          {{tag.name}}
+        </span>
+        <Icon name="delete" class="delete" @click="remove"/>
       </router-link>
     </div>
     <div class="createTag-wrapper">
@@ -28,22 +30,22 @@ import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagLIstModel';
 import Button from '@/components/Button.vue';
 
-tagListModel.fetch()
+
 @Component({
   components: {Button}
 })
 export default class Labels extends Vue{
-  tags=tagListModel.data
+  tags=window.tagList
  createTag(){
     const name=window.prompt('请输入标签名')
    if(name){
-     const message= tagListModel.create(name)
-     if(message==='duplicated'){
-       window.alert('标签名重复了')
-     }else if(message ==='success'){
-       window.alert('添加成功')
-     }
+     window.createTag(name)
    }
+
+  }
+  remove(){
+
+      // tagListModel.remove()
 
   }
 }
@@ -60,10 +62,23 @@ export default class Labels extends Vue{
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
-    svg {
-      width: 18px;
-      height: 18px;
-      color: #666;
+    span{
+      display: flex;
+      align-items: center;
+    }
+    .leftIcon{
+      width: 30px;
+      height: 30px;
+      background: #e8e8e8;
+      color:black;
+      padding:5px 0;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+    .delete {
+      width: 25px;
+      height: 25px;
+      color: #fb4939;
       margin-right: 16px;
     }
   }
