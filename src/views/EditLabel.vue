@@ -18,7 +18,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagLIstModel';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
@@ -26,44 +25,43 @@ import Button from '@/components/Button.vue';
   components: {Button, FormItem}
 })
 export default class EditLabel extends Vue {
-  tag?: { id: string, name: string } = undefined;
+  tag?: Tag = undefined;
 
   created() {//获取已经生成的标签
-    const id = this.$route.params.id;//获取/edit/:id的 id数字
-    tagListModel.fetch();//先将获取的数据进行渲染
-    const tags = tagListModel.data; //获取所以标签数据
-    const tag = tags.filter(t => t.id === id)[0];//获取选中编辑的标签数据
-    if (tag) {//如果tag存在
-      this.tag = tag;
-    } else {
+    this.tag = window.findTag(this.$route.params.id);//获取选中编辑的标签数据;
+    if (!this.tag) {
       this.$router.replace('/404');//如果没有选中编辑标签，直接404
     }
   }
-  update(name:string){//更新标签名
-    if(this.tag){
-      tagListModel.update(this.tag.id,name)
+
+  update(name: string) {//更新标签名
+    if (this.tag) {
+      window.updateTag(this.tag.id, name);
     }
 
   }
-  remove(){//删除标签
-   if(this.tag){
-     tagListModel.remove(this.tag.id)
 
-   }
-   // if(this.tag){
-   //   if(tagListModel.remove(this.tag.id)){
-   //     this.$router.back()
-   //   }else{
-   //     window.alert('删除失败')
-   //   }
-   // }
+  remove() {//删除标签
+    if (this.tag) {
+      window.removeTag(this.tag.id);
+
+    }
+    // if(this.tag){
+    //   if(window.removeTag(this.tag.id)){
+    //     this.$router.back()
+    //   }else{
+    //     window.alert('删除失败')
+    //   }
+    // }
   }
-  goBack(){//回退
-    this.$router.back()
+
+  goBack() {//回退
+    this.$router.back();
   }
-  finish(){//点击完成保存标签，并且回退
-    tagListModel.save()
-    this.$router.back()
+
+  finish() {//点击完成保存标签，并且回退
+    window.saveTag;
+    this.$router.back();
   }
 }
 </script>
