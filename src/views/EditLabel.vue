@@ -20,6 +20,7 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
+import store from '@/store/index2';
 
 @Component({
   components: {Button, FormItem}
@@ -28,7 +29,7 @@ export default class EditLabel extends Vue {
   tag?: Tag = undefined;
 
   created() {//获取已经生成的标签
-    this.tag = window.findTag(this.$route.params.id);//获取选中编辑的标签数据;
+    this.tag = store.findTag(this.$route.params.id);//获取选中编辑的标签数据;
     if (!this.tag) {
       this.$router.replace('/404');//如果没有选中编辑标签，直接404
     }
@@ -36,14 +37,14 @@ export default class EditLabel extends Vue {
 
   update(name: string) {//更新标签名
     if (this.tag) {
-      window.updateTag(this.tag.id, name);
+      store.updateTag(this.tag.id, name);
     }
 
   }
 
   remove() {//删除标签
     if (this.tag) {
-      window.removeTag(this.tag.id);
+      store.removeTag(this.tag.id);
 
     }
     // if(this.tag){
@@ -59,8 +60,8 @@ export default class EditLabel extends Vue {
     this.$router.back();
   }
 
-  finish() {//点击完成保存标签，并且回退
-    window.saveTag;
+  finish() {
+    store.saveTag
     this.$router.back();
   }
 }

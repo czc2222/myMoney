@@ -11,6 +11,7 @@ type Tag = {
   name: string
 }
 type TagListModel = {
+
   data: Tag[],
   fetch: () => Tag[]
   create: (name: string) => 'duplicated' | 'success'
@@ -20,12 +21,5 @@ type TagListModel = {
 }
 
 interface Window {
-  tagList :Tag[]
-  createTag:(name:string) => void
-  removeTag:(id:string) => boolean
-  updateTag:(id:string,name:string) => 'duplicated' | 'success' | 'not found'
-  saveTag: void
-  findTag:(id:string) => Tag | undefined
-  recordList:RecordItem[]
-  createRecord:(record) => void
+
 }
