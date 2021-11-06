@@ -14,7 +14,7 @@ import Types from '@/components/money/Types.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
-import tagListModel from '@/models/tagLIstModel';
+
 
 @Component({
   components: {
@@ -22,7 +22,7 @@ import tagListModel from '@/models/tagLIstModel';
   }
 })
 export default class Labels extends Vue {
-  tags=tagListModel.fetch()
+  // tags=tagListModel.fetch()
 }
 </script>
 

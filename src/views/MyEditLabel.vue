@@ -15,38 +15,38 @@
     </div>
   </layout>
 </template>
-<script lang="ts">
-import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagLIstModel';
-import FormItem from '@/components/money/FormItem.vue';
-import Button from '@/components/Button.vue';
+<!--<script lang="ts">-->
+<!--import Vue from 'vue';-->
+<!--import {Component} from 'vue-property-decorator';-->
+<!--import tagListModel from '@/models/tagLIstModel';-->
+<!--import FormItem from '@/components/money/FormItem.vue';-->
+<!--import Button from '@/components/Button.vue';-->
 
-@Component({
-  components: {Button, FormItem}
-})
-export default class EditLabel extends Vue {
-  tag?: { id: string, name: string } = undefined;
+<!--@Component({-->
+<!--  components: {Button, FormItem}-->
+<!--})-->
+<!--export default class EditLabel extends Vue {-->
+<!--  tag?: { id: string, name: string } = undefined;-->
 
-  created() {
-    const id = this.$route.params.id;//获取/edit/:id的 id数字
-    tagListModel.fetch();//先将获取的数据进行渲染
-    const tags = tagListModel.data; //获取所以标签数据
-    const tag = tags.filter(t => t.id === id)[0];//获取选中编辑的标签数据
-    if (tag) {//如果tag存在
-      this.tag = tag;
-    } else {
-      this.$router.replace('/404');//如果没有选中编辑标签，直接404
-    }
-  }
-  updateTag(name:string){
-    if(this.tag){
-      tagListModel.update(this.tag.id,name)
-    }
+<!--  created() {-->
+<!--    const id = this.$route.params.id;//获取/edit/:id的 id数字-->
+<!--    tagListModel.fetch();//先将获取的数据进行渲染-->
+<!--    const tags = tagListModel.data; //获取所以标签数据-->
+<!--    const tag = tags.filter(t => t.id === id)[0];//获取选中编辑的标签数据-->
+<!--    if (tag) {//如果tag存在-->
+<!--      this.tag = tag;-->
+<!--    } else {-->
+<!--      this.$router.replace('/404');//如果没有选中编辑标签，直接404-->
+<!--    }-->
+<!--  }-->
+<!--  updateTag(name:string){-->
+<!--    if(this.tag){-->
+<!--      tagListModel.update(this.tag.id,name)-->
+<!--    }-->
 
-  }
+<!--  }-->
 }
-</script>
+<!--</script>-->
 
 <style lang="scss" scoped>
 .navBar {

@@ -27,7 +27,6 @@
 
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagLIstModel';
 import Button from '@/components/Button.vue';
 import store from '@/store/index2';
 

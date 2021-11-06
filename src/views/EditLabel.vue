@@ -61,7 +61,7 @@ export default class EditLabel extends Vue {
   }
 
   finish() {
-    store.saveTag
+    store.saveTags
     this.$router.back();
   }
 }
