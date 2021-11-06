@@ -24,6 +24,7 @@ import {Component} from 'vue-property-decorator';
 
 
 
+
 @Component({
   components: {
     Tags, FormItem, Types, NumberPad
@@ -48,7 +49,8 @@ created(){
   }
 
   saveRecord() {
-    this.$store.commit('createRecord',this.record)
+  this.$store.commit('createRecord',this.record)
+    // this.$store.commit('createRecord',this.record)
   }
 
 

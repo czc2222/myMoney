@@ -10,7 +10,7 @@
         {{tag.name}}
       </li>
       <router-link to="/labels" class="edit">
-        <Icon name="edit" />
+        <Icon name="edit"/>
         编辑
       </router-link>
 
@@ -26,15 +26,18 @@ import {Component,Prop} from 'vue-property-decorator'
 @Component({
   computed:{
     tagList(){
-      //todo
-   // return this.$store.fetchTags()
-      return []
+
+    return this.$store.state.tagList
+
     }
   }
 })
 export default class Tags extends  Vue {
 
   selectedTags:string[]=[]
+  created(){
+    this.$store.commit('fetchTags',)
+  }
   toggle(tag:string){
     const index= this.selectedTags.indexOf(tag)
     if(index>=0){
@@ -45,11 +48,12 @@ export default class Tags extends  Vue {
     this.$emit('update:value',this.selectedTags)
 
   }
-  // add() {
+
+  // create() {
   //
   //   const name = window.prompt('请输入标签名')
   //   if (!name) { return window.prompt('标签名不能为空') }
-  //     store.createTag(name)
+  //  this.$store.commit('createTag',name)
   //
   // }
 
