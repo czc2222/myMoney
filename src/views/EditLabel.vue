@@ -23,14 +23,21 @@ import Button from '@/components/Button.vue';
 
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
+
 })
 export default class EditLabel extends Vue {
-  tag?: Tag = undefined;
+
+  get tag() {
+    return this.$store.state.currentTag;
+  }
 
   created() {//获取已经生成的标签
-    //todo
-    // this.tag = {} //store.findTag(this.$route.params.id);//获取选中编辑的标签数据;
+    const id = this.$route.params.id;
+    this.$store.commit('fetchTags')
+    this.$store.commit('setCurrentTag', id);
+
+
     if (!this.tag) {
       this.$router.replace('/404');//如果没有选中编辑标签，直接404
     }
@@ -38,16 +45,15 @@ export default class EditLabel extends Vue {
 
   update(name: string) {//更新标签名
     if (this.tag) {
-      //todo
-      // store.updateTag(this.tag.id, name);
+      this.$store.commit('updateTag', {id:this.tag.id,name});
     }
 
   }
 
   remove() {//删除标签
     if (this.tag) {
-      //todo
-      // store.removeTag(this.tag.id);
+
+     this.$store.commit('removeTag',this.tag.id)
 
     }
     // if(this.tag){

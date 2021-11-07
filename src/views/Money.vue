@@ -8,8 +8,8 @@
                 @update:value="OnUpdateNotes"
       />
     </div>
-      <Tags />
-      <Types :value.sync="record.type"/>
+    <Tags/>
+    <Types :value.sync="record.type"/>
   </layout>
 
 </template>
@@ -22,17 +22,9 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 
 
-
-
-
 @Component({
   components: {
     Tags, FormItem, Types, NumberPad
-  },
-  computed:{
-     recordList(){
-       return this.$store.state.recordList
-     }
   }
 })
 export default class Money extends Vue {
@@ -40,19 +32,22 @@ export default class Money extends Vue {
     tags: [], notes: '', type: '-', amount: 0
   };
 
+  get recordList() {
+    return this.$store.state.recordList;
+  }
 
-created(){
-  this.$store.commit('fetchRecords')
-}
+  created() {
+    this.$store.commit('fetchRecords');
+  }
+
   OnUpdateNotes(value: string) {
     this.record.notes = value;
   }
 
   saveRecord() {
-  this.$store.commit('createRecord',this.record)
+    this.$store.commit('createRecord', this.record);
     // this.$store.commit('createRecord',this.record)
   }
-
 
 
 };
@@ -62,6 +57,7 @@ created(){
   display: flex;
   flex-direction: column-reverse;
 }
+
 .notes {
   padding: 8px 0;
 }
