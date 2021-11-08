@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import clone from '@/lib/clone';
 import createId from '@/lib/createID';
+import defaultTagList from '@/constants/defaultTaglist';
+import iconItem from '@/constants/iconItem';
 
 
 Vue.use(Vuex)
@@ -10,13 +12,15 @@ type RootState ={
   recordList:RecordItem[],
   tagList:Tag[],
   currentTag?:Tag
+
 }
 
 const store = new Vuex.Store({
   state: {
     recordList:[],
     tagList:[] ,
-    currentTag:undefined
+    currentTag:undefined,
+
   } as RootState,
   mutations: {
     fetchRecords(state){
@@ -31,18 +35,21 @@ const store = new Vuex.Store({
     saveRecords(state){
       window.localStorage.setItem('recordList',JSON.stringify(state.recordList))
     },
-    fetchTags(state){
+    fetchTags(state,){
        state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+       if(!state.tagList|| state.tagList.length === 0){
+        store.commit('setDefault')
+      }
     },
-    createTag (state,name: string) {
-      const names = state.tagList.map(item => item.name);
-      if (names.indexOf(name) >= 0) {
-        window.alert('标签名重复了')
-        }
+    setDefault(){
+      for(let i = 0;i<defaultTagList.length;i++){
+        store.commit('createTag',defaultTagList[i])
+      }
+    },
+    createTag (state,newTag:Tag) {
       const id=createId().toString()
-      state.tagList.push({id, name: name});
+      state.tagList.push({id,name:newTag.name,type:newTag.type,svg:newTag.svg})
       store.commit('saveTags')
-      window.alert('添加成功')
 
 
     },
@@ -50,9 +57,6 @@ const store = new Vuex.Store({
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
 
-    setCurrentTag(state,id:string){
-      state.currentTag= state.tagList.filter(t => t.id === id)[0]
-    },
     removeTag (state,id: string)  {
       let index = -1;
       for (let i = 0; i < state.tagList.length; i++) {
@@ -61,17 +65,9 @@ const store = new Vuex.Store({
           break;
         }
       }
-      if(index>=0){
-        state.tagList.splice(index, 1);
-        store.commit('saveTags')
-        window.alert('删除成功')
-
-        }else{
-          window.alert('删除失败')
-        }
-
-
-
+      state.tagList.splice(index, 1);
+      store.commit('saveTags')
+      window.alert('删除成功')
 
     },
 
@@ -91,6 +87,16 @@ const store = new Vuex.Store({
         }
       }
     },
+    // fetchIcon(state){
+    //   const id=createId().toString()
+    //   if(state.iconList){
+    //     state.iconList.id = id
+    //     state.iconList.name =iconItem.map(t=>t.name).toString()
+    //   }
+    //
+    //
+    //
+    // }
   }
 })
 export default store

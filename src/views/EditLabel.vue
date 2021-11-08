@@ -1,18 +1,23 @@
 <template>
   <layout>
-    <div class="navBar">
-      <Icon class="leftIcon" name="left" @click.native="goBack"/>
-      <span class="title">编辑标签</span>
-      <span class="right" @click="finish">完成</span>
-    </div>
+    <Top>
+      添加支出类别
+      <span slot="done" @click="save">完成</span>
+    </Top>
+
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
-                @update:value="update"
-                field-name="icon图标" placeholder="请输入类别名称"/>
+      <FormItem :value="tagName"
+                @update:value="updateName"
+                :tag-select="tag" field-name="null" placeholder="请输入类别名称(不超过4个汉字)"/>
     </div>
-    <div class="button-wrapper">
-      <Button @click="remove">删除标签</Button>
-    </div>
+    <icon-list :value="tag" @update:value="updateIcon">娱乐</icon-list>
+<!--    <icon-list :value="repast">餐饮</icon-list>-->
+<!--    <icon-list :value="shopping">购物</icon-list>-->
+<!--    <icon-list :value="transportation">交通</icon-list>-->
+<!--    <icon-list :value="live">居住</icon-list>-->
+<!--    <icon-list :value="medical">医疗</icon-list>-->
+
+
   </layout>
 </template>
 <script lang="ts">
@@ -20,85 +25,97 @@ import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
-
+import Top from '@/components/Top.vue';
+import amusements from '@/store/amusement';
+import IconList from '@/components/iconList.vue';
+import repasts from '@/store/repast.ts';
+import shoppings from '@/store/shopping.ts';
+import transportations from '@/store/transportation.ts'
+import lives from '@/store/live.ts'
+import medicals from '@/store/medical';
+import iconItem from '@/constants/iconItem';
+import iconList from '@/components/iconList.vue';
 
 @Component({
-  components: {Button, FormItem},
+  components: {IconList, Button, FormItem, Top},
 
 })
 export default class EditLabel extends Vue {
+  iconList= iconItem.map(t=>t.name)//icon 集合体
 
-  get tag() {
-    return this.$store.state.currentTag;
-  }
+  // tag: TagItem = {name: 'food', value: '餐饮'};
+  amusement = amusements
+  repast=repasts
+  shopping =shoppings
+  transportation = transportations
+  live = lives
+  medical = medicals
+  tagName = ''
+  tag= this.iconList[0]
 
-  created() {//获取已经生成的标签
-    const id = this.$route.params.id;
-    this.$store.commit('fetchTags')
-    this.$store.commit('setCurrentTag', id);
+  // selectTag(){
+  //   this.tag = this.amusement
+  //
+  // }
 
+  save() {//获取已经生成的标签
+    // const id = this.$route.params.id;
+    this.$store.commit('fetchTags');
+    const names =this.$store.state.tagList.map(t => t.name)[0]
+    const name =this.tagName
+    console.log(name);
+    console.log(names);
+    if(name.length === 0){
+      window.alert('标签名不能为空')
 
-    if (!this.tag) {
-      this.$router.replace('/404');//如果没有选中编辑标签，直接404
+    }else if(names.indexOf(name) >=0){
+      window.alert('标签名重复了')
+      this.tagName=''
+    }else {
+      this.$store.commit('createTag',
+          {
+            svg: this.tag,
+            type: this.$route.params.type as moneyType,
+            name: this.tagName
+          });
+      window.alert('已保存')
+      this.tagName = '';
+      this.$router.back();
     }
-  }
 
-  update(name: string) {//更新标签名
-    if (this.tag) {
-      this.$store.commit('updateTag', {id:this.tag.id,name});
-    }
 
-  }
+    // this.$store.commit('setCurrentTag', id);
 
-  remove() {//删除标签
-    if (this.tag) {
 
-     this.$store.commit('removeTag',this.tag.id)
-
-    }
-    // if(this.tag){
-    //   if(window.removeTag(this.tag.id)){
-    //     this.$router.back()
-    //   }else{
-    //     window.alert('删除失败')
-    //   }
+    // if (!this.currentTag) {
+    //   this.$router.replace('/404');//如果没有选中编辑标签，直接404
     // }
   }
-
-  goBack() {//回退
-    this.$router.back();
+     updateName(value:string){
+    this.tagName = value
+    }
+  updateIcon(value:string){
+    this.tag =value
   }
+  // update(name: string) {//更新标签名
+  //   if (this.currentTag) {
+  //     this.$store.commit('updateTag', {id:this.currentTag.id,name});
+  //   }
+  //
+  // }
+
+
 
   finish() {
-    //todo
-    // store.saveTags
+    console.log('hi');
+    this.$store.commit('saveTags');
     this.$router.back();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.navBar {
-  text-align: center;
-  font-size: 16px;
-  padding: 12px 16px;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  > .title {
-  }
-
-  > .leftIcon {
-    width: 24px;
-    height: 24px;
-  }
-
-  > .right {
-    font-size: 14px;
-  }
-}
 
 .form-wrapper {
   background: white;

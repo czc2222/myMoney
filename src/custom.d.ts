@@ -1,10 +1,14 @@
+type moneyType = 'income'|'expense'
 
-
-
+type iconItem ={
+  name:string
+  value:string
+  type:moneyType
+}
 type RecordItem = {
   tags: string[]
   notes: string
-  type: string
+  type: moneyType
   amount: number
   createdAt?:Date
 }
@@ -12,6 +16,8 @@ type RecordItem = {
 type Tag = {
   id: string,
   name: string
+  type:moneyType
+  svg:string
 }
 type TagListModel = {
 

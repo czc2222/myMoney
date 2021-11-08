@@ -25,9 +25,13 @@ const routes: Array<RouteConfig> = [
 
   },
   {
-    path:'/labels/edit/:id',
+    path:'/labels/edit',
     component:EditLabel
   },
+  // {
+  //   path:'/labels/edit/:id',
+  //   component:EditLabel
+  // },
   {
     path:'/bill',
     component:Bill

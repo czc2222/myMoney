@@ -1,6 +1,7 @@
 <template>
   <div>
     <label class="formItem">
+      <Icon :name="tagSelect"/>
       <span class="name">{{ this.fieldName }}</span>
       <input type="text" :placeholder="placeholder" :value="value" @input="OnValueChanged($event.target.value)">
     </label>
@@ -14,6 +15,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 export default class FormItem extends  Vue {
   @Prop({default:''}) readonly value!:string
   @Prop({required:true}) fieldName!:string
+  @Prop() tagSelect!:string
   @Prop() placeholder?:string
 
   OnValueChanged(value:string){

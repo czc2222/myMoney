@@ -1,9 +1,12 @@
 
 <template>
-  <Layout>
+  <div>
+    <Top @click="goBack">
+      类别设置
+    </Top>
     <div class="tags">
 
-      <router-link :to="`/labels/edit/${tag.id}`"
+      <div
                    v-for="tag in tags" :key="tag.id"
                    class="tag">
 
@@ -12,15 +15,18 @@
           {{tag.name}}
         </span>
         <Icon name="delete" class="delete" @click="remove"/>
-      </router-link>
+      </div>
     </div>
     <div class="createTag-wrapper">
-      <Button class="createTag"
-              @click="createTag">
-        新建标签
-      </Button>
+      <router-link to="/labels/edit">
+        <Button class="createTag"
+                >
+          添加类别
+        </Button>
+      </router-link>
+
     </div>
-  </Layout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -30,11 +36,12 @@ import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
 import {mixins} from 'vue-class-component';
 import TagHelper from '@/mixins/TagHelper';
+import Top from '@/components/Top'
 
 
 
 @Component({
-  components: {Button},
+  components: {Button,Top},
 
 })
 export default class Labels extends mixins(TagHelper){
@@ -44,17 +51,22 @@ export default class Labels extends mixins(TagHelper){
   beforeCreate(){
 
     this.$store.commit('fetchTags')
+    console.log(this.$store.state.tagList);
 
   }
   remove(){
 
-      // tagListModel.remove()
+      this.$store.commit('removeTag',this.tags.id)
 
+  }
+  goBack() {//回退
+    this.$router.back();
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 .tags {
   background: white;
   font-size: 16px;
@@ -87,8 +99,8 @@ export default class Labels extends mixins(TagHelper){
   }
 }
 .createTag {
-  background: #767676;
-  color: white;
+  background: #fad956;
+  color: black;
   border-radius: 4px;
   border: none;
   height: 40px;
