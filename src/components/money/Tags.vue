@@ -1,20 +1,21 @@
 <template>
-  <div class="tags">
 
+  <div class="tags">
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
           :class="{selected:selectedTags.indexOf(tag)>=0}"
           @click="toggle(tag)"
       >
-        <Icon :name="tag.name"/>
+        <Icon :name="tag.svg"/>
         {{tag.name}}
       </li>
-      <router-link to="/labels" class="edit">
+      <div  @click="addRouter" class="edit">
         <Icon name="edit"/>
         编辑
-      </router-link>
+      </div>
 
     </ul>
+
   </div>
 
 </template>
@@ -25,24 +26,31 @@ import {Component,Prop} from 'vue-property-decorator'
 
 @Component
 export default class Tags extends  Vue {
-
-  selectedTags:string[]=[]
+  @Prop(String) type!:string
+  @Prop(Array) selectedTags!:string[]
   get tagList(){
-
-    return this.$store.state.tagList
+    return this.$store.state.tagList.filter(t=>t.type === this.type)
 
   }
+  addRouter(){
+    this.$router.push(`/labels/${this.type}`)
+    this.$store.commit('saveCurrentTag',this.type)
+
+  }
+
   created(){
     this.$store.commit('fetchTags',)
   }
-  toggle(tag:string){
+  toggle(tag:object){
     const index= this.selectedTags.indexOf(tag)
+
     if(index>=0){
       this.selectedTags.splice(index,1)
     }else{
       this.selectedTags.push(tag)
     }
-    this.$emit('update:value',this.selectedTags)
+    this.$emit('update:type',this.type)
+    this.$emit('update:selectedTags',this.selectedTags)
 
   }
 

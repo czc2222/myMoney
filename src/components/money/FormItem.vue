@@ -14,7 +14,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 @Component
 export default class FormItem extends  Vue {
   @Prop({default:''}) readonly value!:string
-  @Prop({required:true}) fieldName!:string
+  @Prop({required:true}) fieldName?:string
   @Prop() tagSelect!:string
   @Prop() placeholder?:string
 
@@ -31,6 +31,12 @@ export default class FormItem extends  Vue {
   padding-left: 16px;
   display: flex;
   align-items: center;
+  .icon{
+    height:30px;
+    width:30px;
+    background: #fad956;
+    border-radius: 50%;
+  }
   .name {
     padding-right: 16px;
   }

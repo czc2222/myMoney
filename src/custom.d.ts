@@ -1,8 +1,16 @@
-type moneyType = 'income'|'expense'
+type moneyType = '-'|'+'
+
+type RootState ={
+  recordList:RecordItem[],
+  tagList:Tag[],
+  currentTag?:string
+
+
+}
 
 type iconItem ={
   name:string
-  value:string
+  svg:string
   type:moneyType
 }
 type RecordItem = {
@@ -10,7 +18,7 @@ type RecordItem = {
   notes: string
   type: moneyType
   amount: number
-  createdAt?:Date
+  createdAt?:string
 }
 
 type Tag = {

@@ -20,12 +20,12 @@ const routes: Array<RouteConfig> = [
 
   },
   {
-    path:'/labels',
+    path:'/labels/:type',
     component:Labels
 
   },
   {
-    path:'/labels/edit',
+    path:'/labels/:type/:type',
     component:EditLabel
   },
   // {

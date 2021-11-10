@@ -7,7 +7,7 @@
     <span class="type">
       <slot/>
     </span>
-    <div class="empty" @click="$emit('click',$event)">
+    <div  class="empty" @click="$emit('click',$event)">
       <slot name="done"/>
     </div>
 
@@ -16,9 +16,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import iconItem from '@/constants/iconItem';
 
 @Component
 export default class top extends Vue {
+
+
   goBack() {//回退
     this.$router.back();
   }

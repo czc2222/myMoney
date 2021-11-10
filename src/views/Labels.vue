@@ -2,30 +2,30 @@
 <template>
   <div>
     <Top @click="goBack">
-      类别设置
+      {{iconType}}类别设置
     </Top>
     <div class="tags">
-
       <div
                    v-for="tag in tags" :key="tag.id"
                    class="tag">
 
         <span>
-          <Icon class="leftIcon" :name="tag.name"/>
+          <Icon class="leftIcon" :name="tag.svg"/>
           {{tag.name}}
         </span>
-        <Icon name="delete" class="delete" @click="remove"/>
+        <Icon name="delete" class="delete" @click="remove(tag.id)"/>
       </div>
     </div>
     <div class="createTag-wrapper">
-      <router-link to="/labels/edit">
+
         <Button class="createTag"
-                >
+                @click="addRouter">
           添加类别
         </Button>
-      </router-link>
+
 
     </div>
+
   </div>
 </template>
 
@@ -45,18 +45,33 @@ import Top from '@/components/Top'
 
 })
 export default class Labels extends mixins(TagHelper){
+
    get tags(){
-     return this.$store.state.tagList
+     return this.$store.state.tagList.filter(t=>t.type === this.type)
    }
+   get type(){
+     return this.$store.state.currentTag
+   }
+  get iconType() {
+    const map = {
+      '-': '支出',
+      '+': '收入'
+    }
+    return map[this.type]
+  }
+  addRouter(){
+    this.$router.push(`/labels/${this.type}/${this.type}`)
+
+  }
   beforeCreate(){
 
     this.$store.commit('fetchTags')
-    console.log(this.$store.state.tagList);
+
 
   }
-  remove(){
+  remove(id:string){
 
-      this.$store.commit('removeTag',this.tags.id)
+      this.$store.commit('removeTag',id)
 
   }
   goBack() {//回退

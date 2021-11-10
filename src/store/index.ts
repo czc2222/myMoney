@@ -8,27 +8,26 @@ import iconItem from '@/constants/iconItem';
 
 Vue.use(Vuex)
 
-type RootState ={
-  recordList:RecordItem[],
-  tagList:Tag[],
-  currentTag?:Tag
 
-}
 
 const store = new Vuex.Store({
   state: {
     recordList:[],
     tagList:[] ,
-    currentTag:undefined,
+    currentTag:undefined, //收入 支出类型
+    // currentIcon:undefined
 
   } as RootState,
   mutations: {
+    saveCurrentTag(state,value:string){
+      state.currentTag = value
+    },
     fetchRecords(state){
       state.recordList = JSON.parse(window.localStorage.getItem('recordList')||'[]') as RecordItem[];
     },
     createRecord(state,record) {
       const record2: RecordItem = clone(record);
-      record2.createdAt = new Date();
+      record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords')
     },
@@ -58,10 +57,12 @@ const store = new Vuex.Store({
     },
 
     removeTag (state,id: string)  {
+      // state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
       let index = -1;
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === id) {
           index = i;
+
           break;
         }
       }
@@ -71,32 +72,23 @@ const store = new Vuex.Store({
 
     },
 
-    updateTag(state, payload:{id: string, name: string}){
-      const {name,id}=payload
-      const idList = state.tagList.map(t => t.id);
-      if (idList.indexOf(id) >= 0) {
-        const names = state.tagList.map(t => t.name);
-        if (names.indexOf(name) >= 0) {
-          window.alert('标签名重复了')
-        } else {
-          const tag = state.tagList.filter(item => item.id === id)[0];
-          tag.name = name;
-
-          store.commit('saveTags')
-
-        }
-      }
-    },
-    // fetchIcon(state){
-    //   const id=createId().toString()
-    //   if(state.iconList){
-    //     state.iconList.id = id
-    //     state.iconList.name =iconItem.map(t=>t.name).toString()
+    // updateTag(state, payload:{id: string, name: string}){
+    //   const {name,id}=payload
+    //   const idList = state.tagList.map(t => t.id);
+    //   if (idList.indexOf(id) >= 0) {
+    //     const names = state.tagList.map(t => t.name);
+    //     if (names.indexOf(name) >= 0) {
+    //       window.alert('标签名重复了')
+    //     } else {
+    //       const tag = state.tagList.filter(item => item.id === id)[0];
+    //       tag.name = name;
+    //
+    //       store.commit('saveTags')
+    //
+    //     }
     //   }
-    //
-    //
-    //
-    // }
+    // },
+
   }
 })
 export default store
