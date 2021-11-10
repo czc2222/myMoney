@@ -9,9 +9,18 @@
         <h3 class="title">{{record.title}}</h3>
         <ol>
           <li class="record" v-for="item in record.items" :key="item.createdAt">
-            <Icon :name="item.tags"/>
-            <span>{{item.tags}}</span>
-            {{item.amount}} {{item.createdAt}}
+            <div class="wrapper">
+              <div class="item" v-for="icon in item.tags" :key="icon.id">
+                <Icon :name="icon.svg"/>
+                <span>{{icon.name}}</span>
+              </div>
+            </div>
+
+
+<!--            <span>{{tagString(item.tags)}}</span>-->
+            <span class="notes"> {{item.notes}}</span>
+            <span>￥{{item.amount}} </span>
+
           </li>
         </ol>
       </li>
@@ -37,10 +46,15 @@ import Icon from '@/components/Icon.vue';
 export default class Statistics extends Vue {
   type='-'
   interval= 'day'
+  // icon=''
   recordTypeList=recordTypeList
   intervalList=intervalList
-  // tagString(tags){
-  //   return tags.join(',')
+  // tagString(tags:Array){
+  //    return tags.map(t=>t.svg).join(',')
+  // }
+
+  // get Icon(){
+  //   return this.icon= this.tagString
   // }
   get recordList(){
     return (this.$store.state as RootState).recordList
@@ -72,8 +86,9 @@ export default class Statistics extends Vue {
   min-height: 40px;
   line-height: 24px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+
 }
 .title {
   @extend %item;
@@ -82,7 +97,37 @@ export default class Statistics extends Vue {
 }
 
 .record {
+
+border-bottom: 1px #f1eeee solid;
   background: white;
   @extend %item;
+  .wrapper{
+
+    display: flex;
+
+    .item{
+
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      .icon{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #f9d856;
+        margin-right: 5px;
+      }
+    }
+
+  }
+ .notes{
+   margin-right: auto;
+   white-space: normal;
+   word-wrap: break-word;
+   word-break: break-all;
+   color:#999;
+   font-size: 14px;
+ }
+
 }
 </style>
