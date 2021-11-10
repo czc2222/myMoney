@@ -9,10 +9,10 @@
         <Icon :name="tag.svg"/>
         {{tag.name}}
       </li>
-      <div  @click="addRouter" class="edit">
+      <li  @click="addRouter" class="edit">
         <Icon name="edit"/>
         编辑
-      </div>
+      </li>
 
     </ul>
 
@@ -41,7 +41,7 @@ export default class Tags extends  Vue {
   created(){
     this.$store.commit('fetchTags',)
   }
-  toggle(tag:object){
+  toggle(tag:Array){
     const index= this.selectedTags.indexOf(tag)
 
     if(index>=0){

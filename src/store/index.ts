@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     recordList:[],
     tagList:[] ,
     currentTag:undefined, //收入 支出类型
-    // currentIcon:undefined
+
 
   } as RootState,
   mutations: {
@@ -57,7 +57,6 @@ const store = new Vuex.Store({
     },
 
     removeTag (state,id: string)  {
-      // state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
       let index = -1;
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === id) {
@@ -71,23 +70,6 @@ const store = new Vuex.Store({
       window.alert('删除成功')
 
     },
-
-    // updateTag(state, payload:{id: string, name: string}){
-    //   const {name,id}=payload
-    //   const idList = state.tagList.map(t => t.id);
-    //   if (idList.indexOf(id) >= 0) {
-    //     const names = state.tagList.map(t => t.name);
-    //     if (names.indexOf(name) >= 0) {
-    //       window.alert('标签名重复了')
-    //     } else {
-    //       const tag = state.tagList.filter(item => item.id === id)[0];
-    //       tag.name = name;
-    //
-    //       store.commit('saveTags')
-    //
-    //     }
-    //   }
-    // },
 
   }
 })
