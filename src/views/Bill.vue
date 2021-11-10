@@ -6,7 +6,7 @@
     <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
       <li v-for="(record,index) in result" :key="index">
-        <h3 class="title">{{record.title}}</h3>
+        <h3 class="title">{{beautify(record.title)}}</h3>
         <ol>
           <li class="record" v-for="item in record.items" :key="item.createdAt">
             <div class="wrapper">
@@ -38,6 +38,7 @@ import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList'
 import intervalList from '@/constants/intervalList';
 import Icon from '@/components/Icon.vue';
+import dayjs from 'dayjs';
 
 
 @Component({
@@ -46,16 +47,26 @@ import Icon from '@/components/Icon.vue';
 export default class Statistics extends Vue {
   type='-'
   interval= 'day'
-  // icon=''
   recordTypeList=recordTypeList
   intervalList=intervalList
-  // tagString(tags:Array){
-  //    return tags.map(t=>t.svg).join(',')
-  // }
 
-  // get Icon(){
-  //   return this.icon= this.tagString
-  // }
+  beautify(string:string){
+    const today=dayjs()
+    console.log(today);
+    const date=dayjs(string)
+    if(date.isSame(today,'day')){
+      return '今天'
+    }else if(date.isSame(today.subtract('1','day'),'day')){
+      return '昨天'
+    }else if(date.isSame(today.subtract('2','day'),'day')){
+      return '前天'
+    }else if(date.isSame(today,'year')){
+      return date.format('M月DD日')
+    }else {
+      return date.format('YYYY年M月DD日')
+    }
+  }
+
   get recordList(){
     return (this.$store.state as RootState).recordList
   }
