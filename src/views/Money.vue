@@ -1,12 +1,23 @@
 <template>
   <layout class-prefix="layout">
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
+    <div class="createAt">
+      <FormItem field-name="日期"
+                type="date"
+                placeholder="在这里输入日期"
+                :value.sync="record.createdAt"
+
+      />
+
+    </div>
     <div class="notes">
       <FormItem field-name="备注"
+
                 placeholder="在这里输入备注"
                 :value="record.notes"
                 @update:value="OnUpdateNotes"
       />
+
     </div>
     <Tags :type.sync="record.type" :selectedTags.sync="record.tags"/>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
@@ -32,7 +43,7 @@ import Tabs from '@/components/Tabs.vue';
 })
 export default class Money extends Vue {
   record: RecordItem = {
-    tags: [], notes: '', type: '-', amount: 0
+    tags: [], notes: '', type: '-', amount: 0,createdAt:new Date().toISOString()
   };
   recordTypeList = recordTypeList
   get recordList() {
@@ -71,7 +82,8 @@ export default class Money extends Vue {
   flex-direction: column-reverse;
 }
 
-.notes {
+.notes,.createAt {
+  border-bottom: 1px solid #e6e6e6;
   padding: 8px 0;
   .icon{
     display: none;

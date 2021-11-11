@@ -9,6 +9,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
+import echarts from 'echarts'
+
 
 @Component
 export default class bill extends Vue {
