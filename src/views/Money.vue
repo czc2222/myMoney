@@ -10,6 +10,7 @@
     </div>
     <Tags :type.sync="record.type" :selectedTags.sync="record.tags"/>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
+
   </layout>
 
 </template>
@@ -63,6 +64,8 @@ export default class Money extends Vue {
 };
 </script>
 <style lang="scss">
+
+
 .layout-content {
   display: flex;
   flex-direction: column-reverse;
