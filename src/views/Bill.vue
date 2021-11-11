@@ -8,7 +8,7 @@
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span> </h3>
         <ol>
-          <li class="record" v-for="item in group.items" :key="item.createdAt">
+          <li class="record" v-for="(item,index) in group.items" :key="index">
             <div class="wrapper">
               <div class="item" v-for="icon in item.tags" :key="icon.id">
                 <Icon :name="icon.svg"/>
@@ -50,7 +50,6 @@ import clone from '@/lib/clone';
 })
 export default class Statistics extends Vue {
   type='-'
-  interval= 'day'
   recordTypeList=recordTypeList
 
 
