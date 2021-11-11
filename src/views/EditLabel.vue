@@ -41,7 +41,7 @@ export default class EditLabel extends Vue {
   }
 
   get iconType() {
-    const map = {
+    const map:any = {
       '-': '支出',
       '+': '收入'
     };
@@ -51,7 +51,7 @@ export default class EditLabel extends Vue {
   save() {//获取已经生成的标签
 
     this.$store.commit('fetchTags');
-    const names = this.$store.state.tagList.map(t => t.name);
+    const names = this.$store.state.tagList.map((t:Tag) => t.name);
     const name = this.tagName;
 
     if (name.length === 0) {

@@ -7,9 +7,7 @@
 
       </router-link>
 
-    <router-link to="/labels" class="item" active-class="selected">
-      <Icon name="labels"/>
-      标签</router-link>
+
 
     <router-link to="/bill" class="item" active-class="selected">
       <Icon name="bill"/>
@@ -35,6 +33,7 @@ nav {
   @extend %outerShadow;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   font-size: 12px;
   > .item {
     padding: 2px 0;

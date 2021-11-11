@@ -1,6 +1,5 @@
 <template>
   <layout class-prefix="layout">
-    {{ record}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <div class="notes">
       <FormItem field-name="备注"
@@ -48,6 +47,7 @@ export default class Money extends Vue {
 
   saveRecord() {
     this.$store.commit('createRecord', this.record);
+    this.record.tags=[]
   }
 
 

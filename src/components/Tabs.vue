@@ -1,6 +1,8 @@
 <template>
+
   <ul class="tabs">
     <li v-for=" item in dataSource" :key="item.value"
+
         :class="liClass(item)" @click="select(item)"
     >
       {{ item.text }}
@@ -15,7 +17,7 @@ type DateSourceItem= {text:string,value:string }
 
 @Component
 export default class Tabs extends Vue {
-  @Prop({require: true, type: Array}) dataSource!: DateSourceItem[]
+  @Prop(Array) dataSource!: DateSourceItem[]
 //require: true, 必须传  type: Array 类型是   ！可以不存在 ？ 可以不传
   @Prop(String) readonly  value!:string
   @Prop(String) classPrefix?:string

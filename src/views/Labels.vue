@@ -36,7 +36,7 @@ import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
 import {mixins} from 'vue-class-component';
 import TagHelper from '@/mixins/TagHelper';
-import Top from '@/components/Top'
+import Top from '@/components/Top.vue'
 
 
 
@@ -47,13 +47,13 @@ import Top from '@/components/Top'
 export default class Labels extends mixins(TagHelper){
 
    get tags(){
-     return this.$store.state.tagList.filter(t=>t.type === this.type)
+     return this.$store.state.tagList.filter((t:Tag)=>t.type === this.type)
    }
    get type(){
      return this.$store.state.currentTag
    }
   get iconType() {
-    const map = {
+    const map:any = {
       '-': '支出',
       '+': '收入'
     }

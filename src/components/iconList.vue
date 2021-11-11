@@ -4,9 +4,9 @@
     <div>
       <div class="iconList">
         <ul v-for="(group,index) in selectType" :key="index">
-          <div class="type">{{ group.title }}</div>
-          <div class="xxx">
-            <li v-for="icon in group.items" :key="icon.name"
+          <li class="type">{{ group.title }}</li>
+          <li class="xxx">
+            <div v-for="icon in group.items" :key="icon.name"
                 :class="{selected:selectedTags.indexOf(icon.name)>=0}"
                 @click="toggle(icon.name)"
                 class="item"
@@ -15,8 +15,8 @@
               <Icon :name="icon.name"/>
               {{ icon.name }}
 
-            </li>
-          </div>
+            </div>
+          </li>
 
         </ul>
       </div>
@@ -35,7 +35,7 @@ import iconItem from '@/constants/iconItem';
 @Component
 export default class iconList extends Vue {
   @Prop(String) readonly value!: string;
-  iconList = [];
+  iconList:Array<iconItem> = [];
   selectedTags: string = this.value;
 
   get type() {
@@ -43,8 +43,8 @@ export default class iconList extends Vue {
   }
 
   get selectType() {
-    const hashmap = {};
-    type hashmapValue={title:string,items:iconItem[]}
+    const hashmap:any = {};
+    // type hashmapValue={title:string,items:iconItem[]}
     if (this.type === '-') {
       this.iconList = iconItem.filter(t => t.type === '-');
 
@@ -95,7 +95,7 @@ export default class iconList extends Vue {
     .type {
       font-size: 14px;
       text-align: center;
-      margin: 20px 0px;
+      margin: 20px 0;
 
     }
 

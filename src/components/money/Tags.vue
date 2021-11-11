@@ -28,8 +28,9 @@ import {Component,Prop} from 'vue-property-decorator'
 export default class Tags extends  Vue {
   @Prop(String) type!:string
   @Prop(Array) selectedTags!:string[]
+
   get tagList(){
-    return this.$store.state.tagList.filter(t=>t.type === this.type)
+    return this.$store.state.tagList.filter((t:Tag) =>t.type === this.type)
 
   }
   addRouter(){
@@ -41,7 +42,7 @@ export default class Tags extends  Vue {
   created(){
     this.$store.commit('fetchTags',)
   }
-  toggle(tag:Array){
+  toggle(tag:string){
     const index= this.selectedTags.indexOf(tag)
 
     if(index>=0){

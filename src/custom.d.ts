@@ -11,10 +11,10 @@ type RootState ={
 type iconItem ={
   name:string
   svg:string
-  type:moneyType
+  type:string
 }
 type RecordItem = {
-  tags: string[]
+  tags: Tag[]
   notes: string
   type: moneyType
   amount: number

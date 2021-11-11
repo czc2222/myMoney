@@ -16,7 +16,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import iconItem from '@/constants/iconItem';
+
 
 @Component
 export default class top extends Vue {
