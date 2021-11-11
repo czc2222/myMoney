@@ -1,6 +1,16 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{ output }}</div>
+    <div class="wrapper">
+      <div class="createAt">
+        <span class="name">日期</span>
+        <input type="date"
+               placeholder="在这里输入日期"
+               :value="beautify(date)"
+               @input="OnDateChanged($event.target.value)">
+      </div>
+      <div class="output">{{ output }}</div>
+    </div>
+
     <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -13,7 +23,7 @@
       <button @click="inputContent">7</button>
       <button @click="inputContent">8</button>
       <button @click="inputContent">9</button>
-      <button @click="ok" class="ok">OK</button>
+      <button @click="ok" class="ok" >OK</button>
       <button @click="inputContent" class="zero">0</button>
       <button @click="inputContent">.</button>
     </div>
@@ -23,14 +33,22 @@
 <script lang="ts">
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator';
-@Component
+import FormItem from '@/components/money/FormItem.vue';
+import dayjs from 'dayjs';
+@Component({components:{
+    FormItem
+  }})
 export default class NumberPad extends  Vue {
   @Prop(Number) readonly value!:number
+  @Prop()  date!:string
+
   output:string=this.value.toString();
+
+
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
     const input = button.textContent!;
-    if (this.output.length === 16) { return; }
+    if (this.output.length === 8) { return; }
     if (this.output === '0') {
       if ('0123456789'.indexOf(input) >= 0) {
         this.output = input;
@@ -53,6 +71,21 @@ export default class NumberPad extends  Vue {
 
   clear() {
     this.output = '0';
+    console.log(this.date);
+  }
+  OnDateChanged(date:string){
+    this.$emit('update:date',date)
+  }
+  beautify(isoString:string){
+    return dayjs(isoString).format('YYYY-MM-DD')
+    // const today=dayjs()
+    // const date=dayjs(isoString)
+    // if(date.isSame(today,'day')){
+    //   console.log('hi');
+    //   return '今天'
+    // }else  {
+    //   return date.format('YYYY-MM-DD')
+    // }
   }
 
   ok() {
@@ -66,10 +99,32 @@ export default class NumberPad extends  Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 .numberPad {
-  .output {
-
-    @extend %clearFix;
+  .wrapper{
+    display: flex;
+    justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
+    .createAt{
+      font-size: 14px;
+      padding-left: 16px;
+      display: flex;
+      align-items: center;
+      .name {
+        padding-right: 16px;
+      }
+      input {
+        height: 40px;
+        flex-grow: 1;
+        background: transparent;
+        border: none;
+        padding-right: 16px;
+      }
+    }
+  }
+  .output {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @extend %clearFix;
     font-size: 28px;
     font-family: Consolas, monospace;
     padding: 5px 16px;
