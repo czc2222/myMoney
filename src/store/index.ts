@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     recordList:[],
     tagList:[] ,
     currentTag:undefined, //收入 支出类型
-
+    createRecordError:null
 
   } as RootState,
   mutations: {
@@ -25,8 +25,8 @@ const store = new Vuex.Store({
     fetchRecords(state){
       state.recordList = JSON.parse(window.localStorage.getItem('recordList')||'[]') as RecordItem[];
     },
-    createRecord(state,record) {
-      const record2: RecordItem = clone(record);
+    createRecord(state,record: RecordItem) {
+      const record2 = clone(record);
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords')

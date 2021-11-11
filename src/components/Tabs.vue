@@ -18,7 +18,6 @@ type DateSourceItem= {text:string,value:string }
 @Component
 export default class Tabs extends Vue {
   @Prop(Array) dataSource!: DateSourceItem[]
-//require: true, 必须传  type: Array 类型是   ！可以不存在 ？ 可以不传
   @Prop(String) readonly  value!:string
   @Prop(String) classPrefix?:string
   liClass(item:DateSourceItem){

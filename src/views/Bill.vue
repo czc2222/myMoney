@@ -4,7 +4,7 @@
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
 
-    <ol>
+    <ol v-if="groupList.length > 0">
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span> </h3>
         <ol>
@@ -23,6 +23,11 @@
         </ol>
       </li>
     </ol>
+    <div v-else class="noResult">
+      <Icon name="record"/>
+
+      <span>暂时还没有记录,快去记一笔吧~</span>
+    </div>
   </Layout>
 
 
@@ -70,10 +75,10 @@ export default class Statistics extends Vue {
   }
   get groupList(){
     const {recordList} =this
-    if(recordList.length === 0) {return []}
     const sortList = clone(recordList)
         .filter(t=>t.type === this.type)
         .sort((a,b)=>dayjs(b.createdAt).valueOf() -dayjs(a.createdAt).valueOf())
+    if(sortList.length === 0) {return []}
     type Result={title:string,total?:number,items:RecordItem[]}[]
     const result:Result =[{title:dayjs(sortList[0].createdAt ).format('YYYY-MM-DD'),items:[sortList[0]]}]
     for(let i=1;i<sortList.length;i++){
@@ -89,15 +94,6 @@ export default class Statistics extends Vue {
     //或者 result.map(t=>t.total = t.items.reduce((sum,item)=>sum + item.amount,0))  不需要map的返回值，让里面的amount 自相加
     return result
 
-    // type hashTableValue = {title:string,items:RecordItem[]}
-    // const hashTable:{[key:string]: hashTableValue}={} //声明一个空对象的数组
-    // for(let i=0;i< recordList.length;i++){
-
-     // const [date,time] = recordList[i].createdAt!.split('T')
-     //  hashTable[date] =hashTable[date] || {title:date,items:[]} //初始值
-     //  hashTable[date].items.push(recordList[i])
-    // }
-    // return hashTable
   }
   beforeCreate(){
     this.$store.commit('fetchRecords')
@@ -106,6 +102,21 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.noResult{
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center ;
+  .icon{
+    width: 100px;
+    height:100px;
+  }
+  span{
+    padding:16px;
+   text-align: center;
+  }
+}
 ::v-deep .type-tabs-item{
   background: #fad956;
 
