@@ -1,6 +1,7 @@
 <template>
   <div class="numberPad">
     <div class="wrapper">
+
       <div class="createAt">
         <span class="name">日期</span>
         <input type="date"
@@ -35,6 +36,7 @@ import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator';
 import FormItem from '@/components/money/FormItem.vue';
 import dayjs from 'dayjs';
+
 @Component({components:{
     FormItem
   }})
