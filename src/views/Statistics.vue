@@ -1,29 +1,28 @@
 <template>
-  <div>
 
     <Layout>
       <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
       <Date :date.sync="time"/>
-
-      <Echarts :options="x"  />
+      <Echarts :options="x"  v-if="tagName.length>0"/>
+      <NoRecord v-else/>
     </Layout>
 
-  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import recordTypeList from '@/constants/recordTypeList'
-import * as echarts from 'echarts';
 import Echarts from '@/components/Echarts.vue';
-import _ from 'lodash'
 import dayjs from 'dayjs';
 import Date from '@/components/Date.vue';
+import NoRecord from '@/components/NoRecord.vue';
+
 
 
 @Component({
   components:{
+    NoRecord,
     Date,
     Echarts,
     Tabs
@@ -32,77 +31,60 @@ export default class bill extends Vue {
   type='-'
   recordTypeList=recordTypeList
   time=dayjs()
+  @Watch('x')
+  onValueChanged(){
+
+  }
+
   get recordList(){
     return (this.$store.state as RootState).recordList
+  }
+  get types(){
+    return this.recordList.filter(t=>t.type === this.type)
   }
   get month(){
     return dayjs(this.time).format('YYYY-MM')
   }
-//筛选出30天的数据
+
   get MonthRecordList(){
-    return this.recordList.filter(t=>dayjs(t.createdAt).format('YYYY-MM') ===this.month)
+    return this.types.filter(t=>dayjs(t.createdAt).format('YYYY-MM') ===this.month)
   }
   get tagName (){
-    type Result ={name:string,amount:number}[]
-    let result:Result=[{name:'',amount:0}]
-
-    for (let i=0;i<this.MonthRecordList.length;i++){
-
-      const current=this.MonthRecordList[i]
-      if(current.tags.length >1 ){
-        let name= current.tags.map(t=>t.name).join(',')
-         let amount = current.amount
-        let result:Result=[{name:name[0],amount:0}]
-        for(let i=0;i<name.length;i++){
-
-        }
-
-       // ({tag:t.tags,amount:t.amount})
-       return this.MonthRecordList
-      }else {
-        let name=current.tags.map(t=>t.name).toString()
-        let amount =current.amount
-
+    const  {MonthRecordList} =this //获取这个月的数据
+    const map = new Map()
+    for (let i = 0; i < MonthRecordList.length; i++) { //遍历数据
+      const tag: string = MonthRecordList[i].tags.name;
+      const value: number = MonthRecordList[i].amount;
+      if (map.has(tag)) {// 如果map中有这个tag 名称
+        const prevValue = map.get(tag); //获取除tag的amount值
+        const currentValue = prevValue + value; //相加
+        map.set(tag, currentValue);
+      } else {
+        map.set(tag, value);
       }
     }
+    return [...map];//循环map
 
   }
   beforeCreate(){
     this.$store.commit('fetchRecords')
   }
 
-  // get tag(){
-  //   // return this.recordList.map(t=>t.tags)
-  //   return  this.recordList.map(t=>({tag:(t.tags).map(t=>t.name),amount:t.amount,createdAt:t.createdAt}))// 方法2
-  // }
+
+
 
   get x(){
-    console.log(this.MonthRecordList);
-    const today=dayjs()
-    const array =[]
-
-    for(let i=0;i<=29;i++){
-      const dateString=today.subtract(i,'day').format('YYYY-MM-DD') //获取30天日期
-      const foundRecord =_.find(this.recordList,{createdAt:dateString}) //找到 30 天 日期对应的数据
-
-      array.push({date:dateString,value:foundRecord ?foundRecord.amount :0 ,tag:foundRecord ? foundRecord.tags : []}) // 将数据放入数组中
+    console.log(this.tagName);
 
 
+    type tag={name:string,value:number}[]
 
-
-    }
-    for(let i=0;i<this.recordList.length;i++){
-
-    }
-
-
-
-
-
-    // console.log(array);
-    //筛选对象中的 数据中的 两个数据
-    this.recordList.map(t=>_.pick(t,['tags','amount']))// 方法1
-    // this.recordList.map(t=>({tag:t.tags,amount:t.amount}))// 方法2
+    const chartData = this.tagName.reduce((result, item) => {
+          result.push({'name': item[0] as string, 'value': item[1] as number})//0 1 为下标
+          return result;
+        },
+        [] as tag)
+    console.log(chartData);
     return {
 
         tooltip: {
@@ -112,7 +94,8 @@ export default class bill extends Vue {
       legend: {
 
         orient: 'vertical',
-        left: 'left'
+        left: 'left',
+
       },
       series: [
         {
@@ -120,20 +103,7 @@ export default class bill extends Vue {
           type: 'pie',
 
           radius: '50%',
-          data: [
-            {
-              value: 335,
-              name: '直接访问'
-            },
-            {
-              value: 234,
-              name: '联盟广告'
-            },
-            {
-              value: 1548,
-              name: '搜索引擎'
-            }
-          ],
+          data:chartData,
           emphasis: {
             itemStyle: {
               shadowBlur: 10,

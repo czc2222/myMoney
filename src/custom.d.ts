@@ -15,7 +15,7 @@ type iconItem ={
   type:string
 }
 type RecordItem = {
-  tags: Tag[]
+  tags: Tag
   notes: string
   type: moneyType
   amount: number

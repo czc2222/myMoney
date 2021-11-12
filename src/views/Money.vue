@@ -10,7 +10,7 @@
       />
 
     </div>
-    <Tags :type.sync="record.type" :selectedTags.sync="record.tags"/>
+    <Tags :type.sync="record.type" :value.sync="record.tags"/>
     <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
 
   </layout>
@@ -34,7 +34,7 @@ import Tabs from '@/components/Tabs.vue';
 })
 export default class Money extends Vue {
   record: RecordItem = {
-    tags: [], notes: '', type: '-', amount: 0,createdAt:new Date().toISOString()
+    tags: {id:'',name:'',type:'-',svg:''}, notes: '', type: '-', amount: 0,createdAt:new Date().toISOString()
   };
   recordTypeList = recordTypeList
   get recordList() {
@@ -50,7 +50,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    if(!this.record.tags || this.record.tags.length === 0){
+    if(!this.record.tags.id || this.record.tags.id === ''){
       return window.alert('请至少选择一个标签')
     }
 
@@ -58,7 +58,6 @@ export default class Money extends Vue {
       window.alert('已保存')
     }
     this.$store.commit('createRecord', this.record);
-    this.record.tags=[]
     this.record.notes=''
     this.record.createdAt= new Date().toISOString()
   }

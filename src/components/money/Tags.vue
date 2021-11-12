@@ -3,9 +3,10 @@
   <div class="tags">
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id"
-          :class="{selected:selectedTags.indexOf(tag)>=0}"
+          :class="{selected:selectedTags===tag}"
           @click="toggle(tag)"
       >
+
         <Icon :name="tag.svg"/>
         {{tag.name}}
       </li>
@@ -27,7 +28,8 @@ import {Component,Prop} from 'vue-property-decorator'
 @Component
 export default class Tags extends  Vue {
   @Prop(String) type!:string
-  @Prop(Array) selectedTags!:string[]
+  @Prop() value!:Tag
+  selectedTags=this.value
 
   get tagList(){
     return this.$store.state.tagList.filter((t:Tag) =>t.type === this.type)
@@ -42,16 +44,10 @@ export default class Tags extends  Vue {
   created(){
     this.$store.commit('fetchTags',)
   }
-  toggle(tag:string){
-    const index= this.selectedTags.indexOf(tag)
-
-    if(index>=0){
-      this.selectedTags.splice(index,1)
-    }else{
-      this.selectedTags.push(tag)
-    }
+  toggle(tag:Tag){
+    this.selectedTags =tag
     this.$emit('update:type',this.type)
-    this.$emit('update:selectedTags',this.selectedTags)
+    this.$emit('update:value',tag)
 
   }
 

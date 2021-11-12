@@ -9,11 +9,12 @@
         <h3 class="title">{{beautify(group.title)}} <span>{{group.total}}</span> </h3>
         <ol>
           <li class="record" v-for="(item,index) in group.items" :key="index">
+
             <div class="wrapper">
-              <div class="item" v-for="icon in item.tags" :key="icon.id">
-                <Icon :name="icon.svg"/>
-                <span>{{icon.name}}</span>
-              </div>
+
+                <Icon :name="item.tags.svg"/>
+                <span>{{item.tags.name}}</span>
+
             </div>
 
             <span class="notes"> {{item.notes}}</span>
@@ -23,11 +24,7 @@
         </ol>
       </li>
     </ol>
-    <div v-else class="noResult">
-      <Icon name="record"/>
-
-      <span>暂时还没有记录,快去记一笔吧~</span>
-    </div>
+    <NoRecord v-else/>
   </Layout>
 
 
@@ -43,10 +40,11 @@ import recordTypeList from '@/constants/recordTypeList'
 import Icon from '@/components/Icon.vue';
 import dayjs from 'dayjs';
 import clone from '@/lib/clone';
+import NoRecord from '@/components/NoRecord.vue';
 
 
 @Component({
-  components: {Tabs,Icon}
+  components: {NoRecord, Tabs,Icon}
 })
 export default class Statistics extends Vue {
   type='-'
@@ -77,7 +75,7 @@ export default class Statistics extends Vue {
     const sortList = clone(recordList)
         .filter(t=>t.type === this.type)
         .sort((a,b)=>dayjs(b.createdAt).valueOf() -dayjs(a.createdAt).valueOf())
-    if(sortList.length === 0) {return []}//1
+    if(sortList.length === 0) {return []}
     type Result={title:string,total?:number,items:RecordItem[]}[]//1
     const result:Result =[{title:dayjs(sortList[0].createdAt ).format('YYYY-MM-DD'),items:[sortList[0]]}]//1
     for(let i=1;i<sortList.length;i++){//1
@@ -101,21 +99,7 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.noResult{
-  padding: 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center ;
-  .icon{
-    width: 100px;
-    height:100px;
-  }
-  span{
-    padding:16px;
-   text-align: center;
-  }
-}
+
 ::v-deep .type-tabs-item{
   background: #fad956;
 
@@ -137,26 +121,26 @@ export default class Statistics extends Vue {
 
 .record {
 
+
 border-bottom: 1px #f1eeee solid;
   background: white;
   @extend %item;
   .wrapper{
 
+    justify-content: center;
+    align-items: center;
+
     display: flex;
 
-    .item{
-
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-      .icon{
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: #f9d856;
-        margin-right: 5px;
-      }
+    margin-right: 10px;
+    .icon{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #f9d856;
+      margin-right: 5px;
     }
+
 
   }
  .notes{
