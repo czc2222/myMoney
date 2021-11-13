@@ -2,11 +2,11 @@
 
     <Layout>
       <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-      <div class="xxx">
+      <div class="group">
         <Date :date.sync="time"/>
         <span v-for="total in totalRecordList">总{{ iconType }} : ￥{{total.monthTotal}}</span>
       </div>
-      <div class="yyy">
+      <div class="rank">
         <span>{{ iconType }}排行榜 :</span>
 
         <ol>
@@ -169,10 +169,10 @@ export default class bill extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.yyy{
+.rank{
   padding: 0 16px;
 }
-.xxx{
+.group{
   display: flex;
   justify-content: space-between;
   align-items: center;

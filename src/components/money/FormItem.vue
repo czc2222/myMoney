@@ -51,6 +51,7 @@ export default class FormItem extends  Vue {
     background: transparent;
     border: none;
     padding-right: 16px;
+
   }
 
 }

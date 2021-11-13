@@ -1,19 +1,22 @@
 <template>
-  <layout>
-    <Top>
-      添加{{ iconType }}类别
-      <span slot="done" @click="save">完成</span>
-    </Top>
+  <div>
 
-    <div class="form-wrapper">
-      <FormItem :value="tagName"
-                @update:value="updateName"
-                :tag-select="tag" field-name="" placeholder="请输入类别名称(不超过4个汉字)"/>
-    </div>
-    <icon-list :value="tag" @update:value="updateIcon"></icon-list>
+      <Top>
+        添加{{ iconType }}类别
+        <span slot="done" @click="save">完成</span>
+      </Top>
+
+      <div class="form-wrapper">
+        <FormItem :value="tagName"
+                  @update:value="updateName"
+                  :tag-select="tag" field-name="" placeholder="请输入类别名称(不超过6个汉字)"/>
+      </div>
+      <icon-list :value="tag" @update:value="updateIcon"></icon-list>
 
 
-  </layout>
+
+
+  </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
@@ -60,7 +63,9 @@ export default class EditLabel extends Vue {
     } else if (names.indexOf(name) >= 0) {
       window.alert('标签名重复了');
       this.tagName = '';
-    } else {
+    } else if(name.length >6){
+      window.alert('请重新定义标签名')
+    }else {
       this.$store.commit('createTag',
           {
             svg: this.tag,
@@ -75,7 +80,7 @@ export default class EditLabel extends Vue {
   }
 
   updateName(value: string) {
-    this.tagName = value;
+      this.tagName = value;
   }
 
   updateIcon(value: string) {
@@ -84,19 +89,22 @@ export default class EditLabel extends Vue {
 
 
   finish() {
-    this.$store.commit('saveTags');
-    this.$router.back();
+
+      this.$store.commit('saveTags');
+      this.$router.back();
+
   }
 }
 </script>
 
 <style lang="scss" scoped>
 
-
 .form-wrapper {
+
   background: white;
   margin-top: 8px;
   border-bottom: 1px solid #e6e6e6;
+
 }
 
 .button-wrapper {

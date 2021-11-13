@@ -30,6 +30,7 @@ export default class Nav extends Vue {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
 nav {
+
   @extend %outerShadow;
   display: flex;
   flex-direction: row;
