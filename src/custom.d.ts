@@ -6,7 +6,6 @@ type RootState ={
   currentTag?:string
   createRecordError: Error | null
 
-
 }
 
 type iconItem ={
@@ -27,15 +26,6 @@ type Tag = {
   name: string
   type:moneyType
   svg:string
-}
-type TagListModel = {
-
-  data: Tag[],
-  fetch: () => Tag[]
-  create: (name: string) => 'duplicated' | 'success'
-  update: (id: string, name: string) => 'duplicated' | 'success' | 'not found'
-  save: () => void
-  remove: (id: string) => boolean
 }
 
 interface Window {

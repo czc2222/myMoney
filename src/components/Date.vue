@@ -1,6 +1,6 @@
 <template>
   <div class="createAt">
-    <span class="name">日期</span>
+    <span class="name">月份</span>
     <input type="month"
            :value="beautify(date)"
            @input="OnDateChanged($event.target.value)">
@@ -20,14 +20,6 @@ export default class Date extends Vue {
   }
   beautify(isoString:string){
     return dayjs(isoString).format('YYYY-MM')
-    // const today=dayjs()
-    // const date=dayjs(isoString)
-    // if(date.isSame(today,'day')){
-    //   console.log('hi');
-    //   return '今天'
-    // }else  {
-    //   return date.format('YYYY-MM-DD')
-    // }
   }
 }
 </script>
@@ -35,20 +27,29 @@ export default class Date extends Vue {
 <style lang="scss" scoped>
 .createAt {
   font-size: 14px;
-  padding-left: 16px;
+
   display: flex;
   align-items: center;
+  justify-content: center;
+
 
   .name {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    justify-content: center;
     padding-right: 16px;
+
+    height: 30px;
   }
 
   input {
-    height: 40px;
-    flex-grow: 1;
+    height: 30px;
+
     background: transparent;
     border: none;
     padding-right: 16px;
+
   }
 }
 

@@ -36,7 +36,7 @@ export default class Tags extends  Vue {
 
   }
   addRouter(){
-    this.$router.push(`/labels/${this.type}`)
+    this.$router.push(`/labels/edit`)
     this.$store.commit('saveCurrentTag',this.type)
 
   }
@@ -51,13 +51,6 @@ export default class Tags extends  Vue {
 
   }
 
-  // create() {
-  //
-  //   const name = window.prompt('请输入标签名')
-  //   if (!name) { return window.prompt('标签名不能为空') }
-  //  this.$store.commit('createTag',name)
-  //
-  // }
 
 };
 </script>
@@ -90,7 +83,7 @@ export default class Tags extends  Vue {
       .icon {
         width: 40px;
         height: 40px;
-        background: #e8e8e8;
+        background: #f6f6f6;
         padding:5px 0;
         border-radius: 50%;
 

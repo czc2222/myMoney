@@ -30,8 +30,6 @@
 </template>
 
 <script lang="ts">
-
-import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import Button from '@/components/Button.vue';
 import {mixins} from 'vue-class-component';
@@ -45,7 +43,6 @@ import Top from '@/components/Top.vue'
 
 })
 export default class Labels extends mixins(TagHelper){
-
    get tags(){
      return this.$store.state.tagList.filter((t:Tag)=>t.type === this.type)
    }
@@ -60,14 +57,11 @@ export default class Labels extends mixins(TagHelper){
     return map[this.type]
   }
   addRouter(){
-    this.$router.push(`/labels/${this.type}/${this.type}`)
+    this.$router.push(`/labels/edit/${this.type}`)
 
   }
   beforeCreate(){
-
     this.$store.commit('fetchTags')
-
-
   }
   remove(id:string){
 
@@ -99,7 +93,7 @@ export default class Labels extends mixins(TagHelper){
     .leftIcon{
       width: 30px;
       height: 30px;
-      background: #e8e8e8;
+      background: #f9d856;
       color:black;
       padding:5px 0;
       margin-right: 20px;

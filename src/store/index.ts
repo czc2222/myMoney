@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import clone from '@/lib/clone';
 import createId from '@/lib/createID';
 import defaultTagList from '@/constants/defaultTaglist';
-import iconItem from '@/constants/iconItem';
+
 
 
 Vue.use(Vuex)

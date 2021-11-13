@@ -80,14 +80,6 @@ export default class NumberPad extends  Vue {
   }
   beautify(isoString:string){
     return dayjs(isoString).format('YYYY-MM-DD')
-    // const today=dayjs()
-    // const date=dayjs(isoString)
-    // if(date.isSame(today,'day')){
-    //   console.log('hi');
-    //   return '今天'
-    // }else  {
-    //   return date.format('YYYY-MM-DD')
-    // }
   }
 
   ok() {
@@ -106,6 +98,7 @@ export default class NumberPad extends  Vue {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #e6e6e6;
+
     .createAt{
       font-size: 14px;
       padding-left: 16px;

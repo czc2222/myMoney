@@ -96,6 +96,7 @@ export default class EditLabel extends Vue {
 .form-wrapper {
   background: white;
   margin-top: 8px;
+  border-bottom: 1px solid #e6e6e6;
 }
 
 .button-wrapper {

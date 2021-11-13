@@ -5,7 +5,7 @@
       <div class="iconList">
         <ul v-for="(group,index) in selectType" :key="index">
           <li class="type">{{ group.title }}</li>
-          <li class="xxx">
+          <li class="item">
             <div v-for="icon in group.items" :key="icon.name"
                 :class="{selected:selectedTags.indexOf(icon.name)>=0}"
                 @click="toggle(icon.name)"
@@ -99,7 +99,7 @@ export default class iconList extends Vue {
 
     }
 
-    .xxx {
+    .item {
       display: flex;
 
       flex-wrap: wrap;
@@ -126,7 +126,7 @@ export default class iconList extends Vue {
         .icon {
           width: 40px;
           height: 40px;
-          background: #e8e8e8;
+          background: #f6f6f6;
           padding: 5px 0;
           border-radius: 50%;
 

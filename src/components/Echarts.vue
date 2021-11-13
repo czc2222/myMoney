@@ -26,6 +26,8 @@ export default class Echarts extends Vue {
 
 <style lang="scss" scoped>
 .wrapper {
+  margin-top: 5px;
   height: 400px;
+  padding: 0 10px;
 }
 </style>
